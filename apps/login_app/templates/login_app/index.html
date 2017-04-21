@@ -54,15 +54,18 @@
           {% csrf_token %}
           <input class="button" type="submit" name="logout" value="Logout"><br><br>
         </form>
+        {% comment 'for now we won't allow the delete button' %}
         <form id="delete_btn" class="" action="/delete_all" method="post">
           {% csrf_token %}
           <input class="button" type="submit" name="delete_all" value="Delete All"><br><br>
         </form>
+        {% endcomment %}
         <form id="clear_btn" class="" action="/clear_form" method="post">
           {% csrf_token %}
           <input class="button" type="submit" name="clear_form" value="Clear Form"><br><br>
         </form>
       </div>
+      {% comment 'we use this to display a table of all users' %}
       <div id="user_list">
         <table id="user_table">
           <!--
@@ -76,6 +79,7 @@
           {% endfor %}
         </table>
       </div>
+      {% endcomment %}
     </div>
   </body>
 </html>
