@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% load staticfiles %}
+    <link rel='stylesheet' href="{% static 'dojo_secrets_app/css/style.css' %}">
+    <title>Dojo Secrets Assignment</title>
+  </head>
+  <body>
+    <div id="wrapper">
+      <h1>Dojo Secrets Assignment</h1><br>
+      <a href="{% url 'login_app:index' %}">login</a>
+      <a href="{% url 'login_app:logout' %}">logout</a>
+      {% if request.session.id %}
+        <h3 class="center">Hello {{request.session.first_name}}</h3>
+      {% else %}
+        <h4 class="center">You're not logged in. Register or Login to post secrets.</h4>
+      {% endif %}
+      <form class="" action="create_secret" method="post">
+        {% csrf_token %}
+        <input hidden type="text" name="login_id" value="{{request.session.id}}">
+        {# Only display the 'post' secret button if user is logged in. #}
+        {% if request.session.id %}
+        <textarea id="secret_textarea" name="secret" placeholder="Enter a secret here:"></textarea><br>
+        <input class='button' type="submit" name="submit" value="Post">
+        {% else %}
+        <textarea disabled id="secret_textarea" name="secret" ></textarea><br>
+        <input class='button' disabled type="submit" name="submit" value="Post">
+        {% endif %}
+      </form>
+      <a href="{% url 'dojo_secrets_app:popular' %}">Most Popular Secrets</a>
+      <h2>Recent Secrets</h2>
+      <div id="recent_secrets">
+        <table>
+          {% for secret in secrets %}
+          <tr>
+            {# We only want to display the delete button if the user is logged in and created this secret #}
+            {% if request.session.id and request.session.id == secret.login_id %}
+            <td id="secret_td" class='bottom_lined'>{{secret.secret}} <span class='dates'>({{secret.created_at|timesince}} ago)</span> {{secret.likes_count}} {% if secret.likes_count == 1 %}like{%else%}likes{%endif%}.<span class='you_posted_this'>You posted this, {{request.session.first_name}}</span></td>
+            <td>
+              <form class="" action="dojo_secrets_app/{{secret.id}}/delete" method="post">
+                {% csrf_token %}
+                <input hidden type="text" name="delete_from" value="recent">
+                <input type="submit" name="submit" value="Delete">
+              </form>
+            </td>
+            {% else %}
+            <td class='bottom_lined'>{{secret.secret}} <span class='dates'>({{secret.created_at|timesince}} ago)</span> <span class='bold'>{{secret.likes_count}} {% if secret.likes_count == 1 %}like{% else %}likes{%endif%}.</span></td>
+            {% endif %}
+            {# We only want to display the like button if the logged in user did NOT post this secret #}
+            {% if request.session.id and request.session.id != secret.login_id %}
+            <td>
+              <form class="" action="dojo_secrets_app/{{secret.id}}/like" method="post">
+                {% csrf_token %}
+                <input hidden type="text" name="like_from" value="recent">
+                <input type="submit" name="submit" value="Like">
+              </form>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <!-- TODO: Remove this likes div. I created it just for testing, to be able to see into the table -->
+      <!--
+      <div id='likes'>
+        {% for like in likes %}
+          <p>Like:({{like.id}}) Secret:({{like.secret.id}}){{like.secret.secret}} User:({{like.secret.login.id}})</p>
+        {% endfor %}
+      </div>
+    -->
+      <!-- **** TODO: form submit below does NOT work. WHY??? ONLY FOR REDIRECTS NOT RENDER POSTS??? ****
+      <form class="" action="login_app:signon" method="get">
+        {% csrf_token %}
+        <input type="submit" name="submit" value="Login">
+      </form>
+    -->
+    </div>
+  </body>
+</html>

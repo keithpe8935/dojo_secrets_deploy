@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% load staticfiles %}
+    <link rel='stylesheet' href="{% static 'dojo_secrets_app/css/style.css' %}">
+    <title>Most Popular Secrets</title>
+  </head>
+  <body>
+  <h1>Most Popular Secrets...</h1>
+  <a href="{% url 'dojo_secrets_app:index' %}">back</a>
+  <div id="most_popular_div">
+    <table>
+      {% for secret in popular_secrets %}
+      <tr>
+        {% if request.session.id and request.session.id == secret.login_id %}
+        <td class='bottom_lined'>{{secret.secret}} <span class='dates'>({{secret.created_at|date:"F m, Y H:i A"}}) </span><span class='you_posted_this'>{{secret.likes_count}} {% if secret.likes_count == 1 %}like{%else%}likes{%endif%}. You posted this, {{request.session.first_name}}</span></td>
+        <td>
+          <form class="" action="dojo_secrets_app/{{secret.id}}/delete" method="post">
+            {% csrf_token %}
+            <input hidden type="text" name="delete_from" value="popular">
+            <input type="submit" name="submit" value="Delete">
+          </form>
+        </td>
+        {% else %}
+        <td class='bottom_lined'>{{secret.secret}} <span class='dates'>({{secret.created_at|date:"F m, Y H:i A"}}) </span> <span class='bold'>{{secret.likes_count}} {% if secret.likes_count == 1 %}like{%else%}likes{%endif%}.</span></td>
+        {% endif %}
+        {# We only want to display the like button if the logged in user did NOT post this secret #}
+        {% if request.session.id and request.session.id != secret.login_id %}
+        <td>
+          <form class="" action="dojo_secrets_app/{{secret.id}}/like" method="post">
+            <input hidden type="text" name="like_from" value="popular">
+            {% csrf_token %}
+            <input type="submit" name="submit" value="Like">
+          </form>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  </body>
+</html>
