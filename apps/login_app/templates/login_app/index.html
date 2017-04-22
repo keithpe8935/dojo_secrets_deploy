@@ -65,8 +65,9 @@
           <input class="button" type="submit" name="clear_form" value="Clear Form"><br><br>
         </form>
       </div>
-      {% comment 'we use this to display a table of all users' %}
+      {% if request.session.id == 1 %}
       <div id="user_list">
+	   <p>Keith is logged in ({{request.session.id}})
         <table id="user_table">
           <!--
           <thead id="user_list_heading">User Name and Email</thead>
@@ -79,7 +80,7 @@
           {% endfor %}
         </table>
       </div>
-      {% endcomment %}
+      {% endif %}
     </div>
   </body>
 </html>
