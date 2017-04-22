@@ -1,0 +1,95 @@
+/* Resets Here */
+*{
+  padding: 0px;
+  margin: 0px;
+  font-family: arial, sans-serif;
+  color: blue;
+  /*border-width: 1px;
+  border-color: black;
+  border-style: solid;*/
+}
+#wrapper{
+  display: inline-block;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 700px;
+}
+#secret_textarea{
+  background-color: lightcyan;
+  /*width: 690px;*/
+  width: 100%;
+  height: 100px;
+  overflow:scroll;
+  resize: none;
+  font-size: 1em;
+}
+/* recent_secrets is a div to display secrets. I'm changing from div to table
+so some/all of this may need to be ported to the table. */
+#recent_secrets{
+  background-color: lightcyan;
+  width: 700px;
+  height: 300px;
+  overflow: scroll;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+}
+.bottom_lined{
+  border-bottom-color: grey;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+}
+.you_posted_this{
+  font-weight: bold;
+}
+.bold{
+  font-weight: bold;
+}
+#likes{
+  display: inline-block;
+  position: absolute;
+  top: 100px;
+  left: 720px;
+  width: 400px;
+  height: 500px;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  background-color: yellow;
+  overflow: scroll;
+  font-size: .80em;
+}
+#most_popular_div{
+  display: inline-block;
+  position: absolute;
+  padding: 10px;
+  top: 100px;
+  left: 100px;
+  width: 800px;
+  height: 500px;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  background-color: lightcyan;
+  overflow: scroll;
+}
+.button{
+  background-color: blue;
+  color: white;
+  font-size: 1em;
+  border-width: 0px;
+  border-color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 10px;
+}
+table{
+  width: 100%;
+  font-size: .90em;
+}
+.dates{
+  color: darkslategrey;
+}
